@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Een afbeelding opladen{% if settings.wiki_title %} — {{ settings.wiki_title|escape }}{% endif %}{% endblock %}
+{% block content %}
+<ul id="tabs">
+  <li><a href="/w/image/list">Lijst</a></li>
+  <li class="active"><a href="/w/image/upload">Opladen</a></li>
+</ul>
+<div class="wtabs extl" id="pb">
+  <h1>Bezig met het opladen van een afbeelding</h1>
+  <p>Selecteer geen afbeelding die groter is dan 2MB!</p>
+  <form method="post" action="{{ submit_url }}" enctype="multipart/form-data">
+    <div>
+      <input type="file" name="file" accept="image/*"/>
+    </div>
+    <button>Opladen</button>
+  </form>
+</div>
+{% endblock %}

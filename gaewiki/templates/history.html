@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ page_title|escape }}{% endblock %}
+{% block content %}
+<ul id="tabs">
+  <li><a href="{{ page_title|pageurl }}">Bekijk</a></li>
+  {% if can_edit %}
+  <li><a href="/w/edit?page={{ page_title|uurlencode }}">Bewerken</a></li>
+  {% endif %}
+  <li class="active"><a href="/w/history?page={{ page_title|uurlencode }}">Geschiedenis</a></li>
+</ul>
+<div id="pb" class="wtabs">
+<h1>{{ page_title|escape }}</h1>
+
+{% if revisions %}
+  <p>De volgende wijzigingen zijn beschikbaar:</p>
+  <ul>{% for revision in revisions %}
+    <li><a class="int" href="{{ page_title|pageurl }}?r={{ revision.key }}">Gewijzigd op {{ revision.created|timezone|date:"d/m/Y H:i:s"}}</a></li>
+  {% endfor %}</ul>
+{% else %}
+<p>We hebben geen informatie over deze pagina.</p>
+{% endif %}
+</div>
+{% endblock %}

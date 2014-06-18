@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Bewerken "{{ page.title|escape }}"{% if settings.wiki_title %} — {{ settings.wiki_title|escape }}{% endif %}{% endblock %}
+{% block heads %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+<!--
+<script type="text/javascript" src="/gae-wiki-static/scripts/markitup/jquery.markitup.pack.js"></script>
+<script type="text/javascript" src="/gae-wiki-static/scripts/markitup/sets/markdown/set.js"></script>
+-->
+<script type="text/javascript" src="/gae-wiki-static/editor.js"></script>
+<!--
+<link rel="stylesheet" type="text/css" href="/gae-wiki-static/scripts/markitup/skins/markitup/style.css" />
+<link rel="stylesheet" type="text/css" href="/gae-wiki-static/scripts/markitup/sets/markdown/style.css" />
+-->
+{% endblock %}
+{% block content %}
+  <ul id="tabs">
+    <li><a href="{{ page.title|pageurl }}">Bekijk</a></li>
+    <li class="active"><a href="/w/edit?page={{ page.title|uurlencode }}">Bewerken</a></li>
+    <li><a href="/w/history?page={{ page.title|uurlencode }}">Geschiedenis</a></li>
+  </ul>
+  <div class="wtabs" id="pb">
+    <h1>Pagina concept: {% if page.title %}{{ page.title|escape }}{% else %}New page{% endif %}</h1>
+      <div id="preview-back">
+      <div id="preview">
+      {{ page|wikify_page|safe }}
+      {% if page_labels %}
+        <p class="categories">{% if settings.labels_text %}{{ settings.labels_text }}{% else %}Labels{% endif %}: {% for label in page_labels %}{% if forloop.first %}{% else %}, {% endif %}<a class="int" href="{{ label|labelurl }}">{{ label|escape }}</a>{% endfor %}.</p>
+      {% endif %}
+      {% if page.comments_enabled %}
+        {{ settings.comments_code|safe }}
+      {% endif %}
+      </div>
+      </div>
+    <form action="/w/edit" method="POST" class="markdown editor">
+        <input type="hidden" name="name" value="{{ page.title|uurlencode }}"/>
+        <textarea rows="20" cols="80" name="body" id="editor">{% if page.body %}{{ page.get_actual_body }}{% endif %}</textarea>
+        {% if page.is_saved %}
+        <p><label><input type="checkbox" value="1" name="delete"/>Pagina verwijderen</label></p>
+        {% endif %}
+        <p class="extl">Je kan HTML en <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown</a> gebruiken voor de opmaak, <a class="int" href="/w/interwiki" target="_blank">interwikis</a> voor links.</p>
+        <p>Je kan <a href="/w/image/upload" target="_blank">afbeeldingen opladen van de pc</a> om deze in te voegen, of een <a href="/w/image/list" target="_blank">bestaande afbeelding in de wiki hergebruiken</a>.</p>
+        <input type="submit" name="Preview" value="Concept bekijken"/> of <input type="submit" name="Save" value="Veranderingen opslaan"/> of <a class="int" href="{{ page.title|pageurl }}">annuleren</a>
+    </form>
+  </div>
+{% endblock %}

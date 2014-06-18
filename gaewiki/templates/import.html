@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<ul id="tabs">
+  <li class="active"><a href="/w/data/import">Importeer</a></li>
+  <li><a href="/w/data/export">Exporteer</a></li>
+</ul>
+  <div class="wtabs extl" id="pb">
+    <h1>Data import</h1>
+    <p>Selecteer een voorgaand ge-exporteerd JSON bestand.</p>
+    <form method="post" enctype="multipart/form-data">
+      <div>
+        <input type="file" name="file"/>
+      </div>
+      <div>
+        <label><input type="checkbox" name="merge"/> Voeg alleen pagina's toe die nog niet bestaan</label>
+      </div>
+      <div>
+        <input type="submit" value="Upload"/>
+      </div>
+    </form>
+  </div>
+{% endblock %}

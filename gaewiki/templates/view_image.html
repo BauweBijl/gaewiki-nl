@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}{{ image.meta.filename|escape }}{% if settings.wiki_title %} — {{ settings.wiki_title|escape }}{% endif %}{% endblock %}
+{% block content %}
+<ul id="tabs">
+  <li class="active"><a href="#">Bekijk</a></li>
+  <li><a href="/w/image/list">Lijst</a></li>
+  <li><a href="/w/image/upload">Opladen</a></li>
+</ul>
+<div class="wtabs extl" id="pb">
+  <h1>{{ image.meta.filename|escape }}</h1>
+  <p>Deze afbeelding is opgeladen op {{ image.meta.creation }}.</p>
+
+  {% for version in image.versions %}
+    <h2>{{ version.0 }}</h2>
+    <div><img class="img-preview" alt="{{ version.0 }}" src="{{ version.1 }}"/></div>
+    <p>Wiki code voor het toevoegen van deze afbeelding:</p>
+    <div><code>{{ version.2 }}</code></div>
+  {% endfor %}
+
+  {% if image.pages %}
+    <h2>Links naar deze afbeelding</h2>
+    <p>Deze afbeelding is in gebruik op de volgende pagina's:</p>
+    <ul>
+      {% for page in image.pages %}
+        <li><a class="int" href="{{ page.title|pageurl }}">{{ page.title }}</a></li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</div>
+{% endblock %}

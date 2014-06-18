@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Profiel{% endblock %}
+{% block content %}
+<div id="pb">
+  <h1>Persoonlijk profiel</h1>
+  <form method="post">
+    <table class="forms">
+      <tbody>
+        <tr>
+          <th>Email:</th>
+          <td>{{ user.wiki_user.email|escape }}</td>
+        </tr>
+        <tr>
+          <th>Publieke pagina:</th>
+          <td><a href="/user%3A{{ user.get_nickname|uurlencode }}">user:{{ user.get_nickname|escape }}</a></td>
+        </tr>
+        <tr>
+          <th>Gebruikersnaam:</th>
+          <td>
+            <input type="text" class="text" name="nickname" value="{{ user.get_nickname|escape }}"/>
+            <p class="hint">Gebruikt in <a href="/w/changes">de lijst met recente wijzigingen</a> etc.</p>
+          </td>
+        </tr>
+        <tr>
+          <th>Publieke email:</th>
+          <td>
+            <input type="text" class="text" name="email" value="{{ user.get_public_email|escape }}"/>
+            <p class="hint">Gebruikt in de RSS-feed.</p>
+          </td>
+        </tr>
+        <tr>
+          <th/>
+          <td><input type="submit" value="Wijzigingen opslaan"/></td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>
+{% endblock %}

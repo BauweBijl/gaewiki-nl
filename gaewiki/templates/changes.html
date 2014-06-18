@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Recente wijzigingen{% endblock %}
+{% block content %}
+<ul id="tabs">
+<li class="active"><a href="/w/changes">Bekijk</a></li>
+<li><a href="/w/changes.rss">RSS</a></li>
+</ul>
+
+<div id="pb" class="wtabs">
+<h1>Recente wijzigingen</h1>
+
+{% if pages %}
+<table class="c">
+  <thead>
+    <tr>
+      <th>Pagina</th>
+      <th>Bewerkt op</th>
+      <th>Door</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for page in pages %}
+      <tr>
+        <td>
+          <a class="int{% if page.pread %} public{% endif %}" href="{{ page.title|pageurl }}">{{ page.title|escape }}</a>
+        </td>
+        <td>
+          {{ page.updated|timezone|date:"d/m/Y H:i:s" }}
+        </td>
+        <td>
+          {% if page.author %}
+            <a href="/user%3A{{ page.author.get_nickname|uurlencode }}">{{ page.author.get_nickname|escape }}</a>
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% else %}
+<p>Er is nog niets veranderd.</p>
+{% endif %}
+</div>
+{% endblock %}
